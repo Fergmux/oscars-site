@@ -6,6 +6,7 @@ import {
   ApiTopbarTopbar,
 } from '@api/types/generated/contentTypes';
 import { Reactive, reactive } from 'vue';
+import { getMediaUrl } from './utils';
 
 export const state: Reactive<{
   topBarContent?: ApiTopbarTopbar;
@@ -14,17 +15,20 @@ export const state: Reactive<{
   portfolioContent?: ApiPortfolioPortfolio;
   contactContent?: ApiPortfolioPortfolio;
   songs?: ApiSongSong[];
+  backgroundImages: Record<string, HTMLImageElement>;
   getTopBarContent: () => Promise<void>;
   getHomeContent: () => Promise<void>;
   getAboutContent: () => Promise<void>;
   getPortfolioContent: () => Promise<void>;
   getContactContent: () => Promise<void>;
   getSongs: () => Promise<void>;
+  getImages: () => Promise<void>;
 }> = reactive({
   topBarContent: undefined,
   homeContent: undefined,
   aboutContent: undefined,
   portfolioContent: undefined,
+  backgroundImages: {},
   songs: undefined,
   getTopBarContent: async () => {
     if (!state.topBarContent) {
@@ -61,6 +65,19 @@ export const state: Reactive<{
       const response = await makeApiRequest('songs');
       state.songs = response;
     }
+  },
+  getImages: async () => {
+    const urls = [
+      getMediaUrl(state.homeContent?.attributes.background),
+      getMediaUrl(state.aboutContent?.attributes.background),
+      getMediaUrl(state.contactContent?.attributes.background),
+      getMediaUrl(state.portfolioContent?.attributes.background),
+    ];
+
+    urls.forEach((url) => {
+      const img = new Image();
+      img.src = url;
+    });
   },
 });
 

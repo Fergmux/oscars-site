@@ -22,9 +22,9 @@
 // });
 </script>
 <template>
-  <div class="absolute w-full h-full">
+  <div class="absolute h-full w-full">
     <div
-      class="text-7xl w-112 font-semibold text-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+      class="absolute left-1/2 top-1/2 w-112 -translate-x-1/2 -translate-y-1/2 text-center text-7xl font-semibold"
     >
       Hi, what would you like to do?
     </div>

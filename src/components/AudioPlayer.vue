@@ -10,10 +10,15 @@ import {
 import type { Ref } from 'vue';
 import { computed, defineProps, ref, unref } from 'vue';
 
+const emit = defineEmits(['nextSong', 'previousSong']);
+
 const setSongLength = () => {
   const duration = unref(audioPlayer)?.duration;
   if (duration) {
     songLength.value = Math.floor(duration);
+  }
+  if (playing.value) {
+    unref(audioPlayer)?.play();
   }
 };
 
@@ -33,6 +38,7 @@ const formattedTags = computed(() => {
   // capitalize first letter of each tag
   return props.song.attributes.tags
     .split(',')
+    .map((tag: string) => tag.trim())
     .map((tag: string) => tag.charAt(0).toUpperCase() + tag.slice(1))
     .join(', ');
 });
@@ -78,8 +84,15 @@ const playPause = () => {
 const restart = () => {
   const audio = unref(audioPlayer);
   if (audio) {
+    if (audio.currentTime < 2) {
+      emit('previousSong');
+    }
     audio.currentTime = 0;
   }
+};
+
+const nextSong = () => {
+  emit('nextSong');
 };
 
 // const formatTime = (time: number) => {
@@ -109,6 +122,19 @@ const setSongTime = async (event: MouseEvent) => {
     audio.currentTime = percentage * audio.duration;
   }
 };
+
+// watch(
+//   () => props.song,
+//   () => {
+//     console.log('song changed');
+//     if (playing.value) {
+//       unref(audioPlayer)?.play();
+//     }
+//     // songCurrent.value = 0;
+//     // songLength.value = 0;
+//     // setSongLength();
+//   },
+// );
 </script>
 
 <template>
@@ -126,7 +152,15 @@ const setSongTime = async (event: MouseEvent) => {
       <div
         class="relative -left-2 -top-2 h-full w-full rounded-3xl border-4 border-black bg-pink-100 p-7 text-black"
       >
-        <img :src="songAlbumArt" class="aspect-square border-2 border-black" />
+        <div class="relative">
+          <Transition name="fade-image">
+            <img
+              :key="songAlbumArt"
+              :src="songAlbumArt"
+              class="aspect-square border-2 border-black"
+            />
+          </Transition>
+        </div>
         <p class="mt-2 text-lg font-bold">{{ props.song.attributes.title }}</p>
         <p>{{ formattedTags }}</p>
 
@@ -155,11 +189,25 @@ const setSongTime = async (event: MouseEvent) => {
             @click="playPause"
             class="mx-2 size-14 cursor-pointer"
           />
-          <ForwardIcon @click="restart" class="size-10 cursor-pointer" />
+          <ForwardIcon @click="nextSong" class="size-10 cursor-pointer" />
         </div>
       </div>
     </div>
   </div>
 </template>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.fade-image-enter-active {
+  transition: opacity 0.5s ease;
+  position: absolute;
+  top: 0;
+}
+.fade-image-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-image-enter-from,
+.fade-image-leave-to {
+  opacity: 0;
+}
+</style>

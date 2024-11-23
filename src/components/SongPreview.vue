@@ -21,17 +21,17 @@ const formattedTags = computed(() => {
 </script>
 
 <template>
-  <div class="w-96 h-28 bg-black rounded-3xl">
+  <div class="h-28 w-96 rounded-3xl bg-black">
     <div
-      class="relative w-full h-full bg-pink-100 rounded-3xl -top-2 -left-2 border-4 border-black p-3 pr-8 text-black mt-10 flex items-center justify-between"
+      class="relative -left-2 -top-2 mt-10 flex h-full w-full items-center justify-between rounded-3xl border-4 border-black bg-pink-100 p-3 pr-8 text-black"
     >
-      <div class="flex items-center h-full">
+      <div class="flex h-full items-center">
         <img
           :src="songAlbumArt"
-          class="border-2 border-black aspect-square rounded-xl h-full"
+          class="aspect-square h-full rounded-xl border-2 border-black"
         />
         <div class="ml-3">
-          <p class="font-bold text-lg">
+          <p class="text-lg font-bold">
             {{ props.song.attributes.title }}
           </p>
           <p>{{ formattedTags }}</p>

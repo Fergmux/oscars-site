@@ -57,10 +57,7 @@ onMounted(async () => {
 });
 </script>
 <template>
-  <div
-    class="absolute h-full w-full bg-cover"
-    :style="`background-image: url(${bgImageUrl})`"
-  >
+  <div class="bg-cover" :style="`background-image: url(${bgImageUrl})`">
     <div
       class="relative h-full w-full"
       style="backdrop-filter: blur(4px) brightness(50%)"

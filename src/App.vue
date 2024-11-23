@@ -55,6 +55,7 @@ onMounted(async () => {
   await state.getPortfolioContent();
   await state.getContactContent();
   await state.getSongs();
+  await state.getImages();
 });
 </script>
 
@@ -65,7 +66,7 @@ onMounted(async () => {
   />
 
   <Transition name="fade">
-    <div v-if="mouseMoved">
+    <div v-if="mouseMoved" class="absolute left-0 top-0 z-20 h-screen w-screen">
       <!-- UP ARROW -->
       <Transition name="fade" mode="out-in">
         <Arrow
@@ -76,6 +77,7 @@ onMounted(async () => {
         />
         <div v-else />
       </Transition>
+
       <!-- DOWN ARROW -->
       <Transition name="fade" mode="out-in">
         <Arrow
@@ -130,7 +132,7 @@ onMounted(async () => {
       @mousemove="onMouseMove"
       :mode="transitionName === 'fade-scale' ? 'out-in' : undefined"
     >
-      <component :is="Component" />
+      <component class="absolute h-full w-full" :is="Component" />
     </Transition>
   </RouterView>
 </template>

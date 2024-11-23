@@ -3,7 +3,7 @@ import { state } from '@api/strapiStore';
 import { getMediaUrl } from '@api/utils';
 import AudioPlayer from '@components/AudioPlayer.vue';
 import SongPreview from '@components/SongPreview.vue';
-import { computed, ComputedRef, onMounted } from 'vue';
+import { computed, ComputedRef, onMounted, ref, unref } from 'vue';
 
 const bgImageUrl: ComputedRef<string | undefined> = computed(() => {
   const portfolioContent = state.portfolioContent;
@@ -16,6 +16,28 @@ const bgImageUrl: ComputedRef<string | undefined> = computed(() => {
 const songs = computed(() => {
   return state.songs;
 });
+
+const songIndex = ref(0);
+let disableInc = false;
+
+const incSongindex = (inc: number): void => {
+  const songsValue = unref(songs);
+
+  const newIndex = unref(songIndex) + inc;
+  if (
+    !songsValue ||
+    disableInc ||
+    newIndex < 0 ||
+    newIndex >= songsValue.length
+  ) {
+    return;
+  }
+  disableInc = true;
+  setTimeout(() => {
+    disableInc = false;
+  }, 500);
+  songIndex.value = newIndex;
+};
 
 // const imageUrl: ComputedRef<string | undefined> = computed(() => {
 //   const homeContent = state.homeContent;
@@ -35,29 +57,27 @@ onMounted(async () => {
     class="w-full h-full bg-cover absolute -z-30 blur-sm bg-blend-darken bg-[rgba(0,0,0,0.3)]"
     :style="`background-image: url(${imageUrl})`"
   > -->
-  <div
-    class="relative h-full w-full bg-cover"
-    :style="`background-image: url(${bgImageUrl})`"
-  >
+  <div class="bg-cover" :style="`background-image: url(${bgImageUrl})`">
     <div
       class="relative h-full w-full"
       style="backdrop-filter: blur(4px) brightness(50%)"
     />
-    <div>
+    <div v-if="songs">
       <div
         class="absolute bottom-1/2 left-1/2 -translate-x-1/2 -translate-y-72 scale-95"
       >
-        <song-preview v-for="song in songs" :song />
+        <song-preview v-for="song in songs.slice(0, songIndex)" :song />
       </div>
       <audio-player
-        v-for="song in songs"
-        :song
+        @next-song="incSongindex(1)"
+        @previous-song="incSongindex(-1)"
+        :song="songs[songIndex]"
         class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-64"
       />
       <div
         class="absolute left-1/2 top-1/2 -translate-x-1/2 translate-y-64 scale-95"
       >
-        <song-preview v-for="song in songs" :song />
+        <song-preview v-for="song in songs.slice(songIndex + 1)" :song />
       </div>
 
       <!-- <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">

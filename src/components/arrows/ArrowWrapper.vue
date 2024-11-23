@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="transition-all text-4xl duration-300 link-shadow absolute z-10 w-64"
-  >
+  <div class="link-shadow absolute w-64 text-4xl transition-all duration-300">
     <slot />
   </div>
 </template>
