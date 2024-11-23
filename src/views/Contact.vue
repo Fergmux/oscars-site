@@ -1,7 +1,47 @@
 <script setup lang="ts">
 import { state } from '@api/strapiStore';
 import { getMediaUrl } from '@api/utils';
-import { computed, ComputedRef, onMounted } from 'vue';
+import { useToast } from '@composables/toast';
+import { computed, ComputedRef, onMounted, ref } from 'vue';
+
+const { toast } = useToast();
+
+const formFields = ref({
+  name: '',
+  email: '',
+  message: '',
+});
+
+onMounted(() => {
+  document.querySelector('form')?.addEventListener('submit', handleSubmit);
+});
+
+const handleSubmit = async (e: SubmitEvent) => {
+  e.preventDefault();
+  const myForm = document.getElementById('contact') as HTMLFormElement;
+  const formData = new FormData(myForm);
+
+  try {
+    await fetch('/', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams(
+        Array.from(formData.entries()).map((x) => x.map((y) => y as string)),
+      ).toString(),
+    });
+  } catch (e) {
+    toast('Sorry something went wrong when submitting your message');
+    return;
+  }
+
+  toast('Thanks for your message!');
+
+  formFields.value = {
+    name: '',
+    email: '',
+    message: '',
+  };
+};
 
 const bgImageUrl: ComputedRef<string | undefined> = computed(() => {
   const contactContent = state.contactContent;
@@ -32,14 +72,17 @@ onMounted(async () => {
         >
           <h2 class="mb-8 text-4xl">Contact me</h2>
           <form
+            id="contact"
             class="flex basis-full flex-col"
             action="/contact"
             name="contact"
             method="POST"
             netlify
           >
+            <input type="hidden" name="bot-field" />
             <div class="mb-8">
               <input
+                v-model="formFields.name"
                 type="text"
                 id="name"
                 name="name"
@@ -49,6 +92,7 @@ onMounted(async () => {
             </div>
             <div class="mb-8">
               <input
+                v-model="formFields.email"
                 type="email"
                 id="email"
                 name="email"
@@ -58,6 +102,7 @@ onMounted(async () => {
             </div>
             <div class="mb-8 flex-grow basis-full">
               <textarea
+                v-model="formFields.message"
                 id="message"
                 name="message"
                 placeholder="Message"

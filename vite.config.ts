@@ -12,6 +12,7 @@ export default defineConfig({
       '@api': path.resolve(__dirname, './src/api'),
       '@assets': path.resolve(__dirname, './src/assets'),
       '@enums': path.resolve(__dirname, './src/enums'),
+      '@composables': path.resolve(__dirname, './src/composables'),
     },
   },
 });
