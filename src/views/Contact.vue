@@ -31,7 +31,12 @@ onMounted(async () => {
           class="relative -left-2 -top-2 mt-10 flex h-full w-full flex-col rounded-3xl border-4 border-black bg-amber-50 p-8 pr-8 font-bold text-black"
         >
           <h2 class="mb-8 text-4xl">Contact me</h2>
-          <form class="flex basis-full flex-col" name="contact" netlify>
+          <form
+            class="flex basis-full flex-col"
+            name="contact"
+            method="POST"
+            netlify
+          >
             <div class="mb-8">
               <input
                 type="text"
