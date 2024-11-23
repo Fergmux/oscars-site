@@ -11,7 +11,14 @@
     <title>Vite + Vue + TS</title>
   </head>
   <body style="overflow: hidden">
-    <div id="app" class="w-screen h-screen"></div>
+    <div id="app" class="h-screen w-screen"></div>
+    <form hidden name="contact" netlify data-netlify-honeypot="bot-field">
+      <input type="hidden" name="bot-field" />
+      <input type="text" name="name" />
+      <input type="email" name="email" />
+      <input type="text" name="message" />
+      <textarea name="message"></textarea>
+    </form>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
