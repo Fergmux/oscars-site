@@ -1,12 +1,6 @@
 <script setup lang="ts">
 import { ApiSongSong } from '@api/types/generated/contentTypes';
 import { getMediaUrl } from '@api/utils';
-import {
-  BackwardIcon,
-  ForwardIcon,
-  PauseCircleIcon,
-  PlayCircleIcon,
-} from '@heroicons/vue/24/solid';
 import type { Ref } from 'vue';
 import { computed, defineProps, ref, unref } from 'vue';
 
@@ -29,14 +23,6 @@ const songAlbumArt = computed(() => {
   return getMediaUrl(props.song.attributes.albumArt);
 });
 
-const formattedTags = computed(() => {
-  // capitalize first letter of each tag
-  return props.song.attributes.tags
-    .split(',')
-    .map((tag: string) => tag.charAt(0).toUpperCase() + tag.slice(1))
-    .join(', ');
-});
-
 const audioPlayer = ref<HTMLAudioElement | undefined>();
 const progressBar = ref<HTMLElement | undefined>();
 const timeSelectBar = ref<HTMLElement | undefined>();
@@ -45,9 +31,9 @@ const progressIndicator = ref<HTMLElement | undefined>();
 const playing = ref(false);
 
 const songLength: Ref<number> = ref(0);
-// const songLengthFormatted = computed(() => formatTime(unref(songLength)));
+const songLengthFormatted = computed(() => formatTime(unref(songLength)));
 const songCurrent = ref(0);
-// const songCurrentFormatted = computed(() => formatTime(unref(songCurrent)));
+const songCurrentFormatted = computed(() => formatTime(unref(songCurrent)));
 
 const updateProgressIndicator = () => {
   const audio = unref(audioPlayer);
@@ -82,9 +68,9 @@ const restart = () => {
   }
 };
 
-// const formatTime = (time: number) => {
-//   return new Date(1000 * time).toISOString().slice(14, 19).replace('00:', '0:');
-// };
+const formatTime = (time: number) => {
+  return new Date(1000 * time).toISOString().slice(14, 19).replace('00:', '0:');
+};
 
 const timeUpdated = () => {
   const currentTime = unref(audioPlayer)?.currentTime;
@@ -112,7 +98,7 @@ const setSongTime = async (event: MouseEvent) => {
 </script>
 
 <template>
-  <div>
+  <div class="bg-slate-50 text-slate-950">
     <audio
       ref="audioPlayer"
       @ended="songEnded"
@@ -121,42 +107,43 @@ const setSongTime = async (event: MouseEvent) => {
       :src="songUrl"
       preload="metadata"
     />
+    <div class="w-full flex items-center">
+      <img class="w-28" :src="songAlbumArt" />
+      <div class="w-64">
+        <h2>{{ props.song.attributes.title }}</h2>
+        <p>{{ props.song.attributes.tags }}</p>
+      </div>
+      <div class="flex w-28">
+        <i @click="restart" class="material-icons cursor-pointer">
+          skip_previous
+        </i>
+        <i @click="playPause" class="material-icons cursor-pointer">
+          {{ playing ? 'pause' : 'play_arrow' }}
+        </i>
+        <i @click="restart" class="material-icons cursor-pointer">skip_next</i>
+      </div>
+      <div class="w-full flex items-center">
+        <p class="w-14 text-center">{{ songCurrentFormatted }}</p>
+        <div class="flex-grow relative mx-4">
+          <div class="w-full absolute top-0 h-px bg-black"></div>
 
-    <div class="h-128 w-96 rounded-3xl bg-black">
-      <div
-        class="relative -left-2 -top-2 h-full w-full rounded-3xl border-4 border-black bg-pink-100 p-7 text-black"
-      >
-        <img :src="songAlbumArt" class="aspect-square border-2 border-black" />
-        <p class="mt-2 text-lg font-bold">{{ props.song.attributes.title }}</p>
-        <p>{{ formattedTags }}</p>
-
-        <div class="relative mt-3 w-full">
-          <div class="absolute top-0 mt-px h-[2px] w-full bg-black"></div>
           <div
             const
             ref="progressBar"
-            class="absolute top-0 h-1 bg-black"
+            class="absolute top-0 h-px bg-orange-500"
           ></div>
 
           <div
             ref="progressIndicator"
-            class="absolute -left-1 -top-1 h-3 w-3 rounded-full bg-black"
+            class="absolute -top-1 w-2 h-2 -left-1 rounded-full bg-orange-500"
           ></div>
           <div
             ref="timeSelectBar"
             @click="setSongTime"
-            class="absolute -top-3 h-5 w-full cursor-pointer"
+            class="w-full absolute -top-3 h-5"
           ></div>
         </div>
-        <div class="mt-6 flex items-center justify-center">
-          <BackwardIcon @click="restart" class="size-10 cursor-pointer" />
-          <component
-            :is="playing ? PauseCircleIcon : PlayCircleIcon"
-            @click="playPause"
-            class="mx-2 size-14 cursor-pointer"
-          />
-          <ForwardIcon @click="restart" class="size-10 cursor-pointer" />
-        </div>
+        <p class="w-14 text-center">{{ songLengthFormatted }}</p>
       </div>
     </div>
   </div>

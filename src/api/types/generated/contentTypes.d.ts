@@ -1,4 +1,4 @@
-import type { Schema, Attribute } from '@strapi/strapi';
+import type { Attribute, Schema } from '@strapi/strapi';
 
 export interface AdminPermission extends Schema.CollectionType {
   collectionName: 'admin_permissions';
@@ -801,7 +801,7 @@ export interface ApiAboutAbout extends Schema.SingleType {
   };
   attributes: {
     text: Attribute.Text;
-    image: Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    background: Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     textImage: Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -821,6 +821,36 @@ export interface ApiAboutAbout extends Schema.SingleType {
   };
 }
 
+export interface ApiContactContact extends Schema.SingleType {
+  collectionName: 'contacts';
+  info: {
+    singularName: 'contact';
+    pluralName: 'contacts';
+    displayName: 'Contact';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    background: Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::contact.contact',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::contact.contact',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiHomepageHomepage extends Schema.SingleType {
   collectionName: 'homepages';
   info: {
@@ -833,11 +863,12 @@ export interface ApiHomepageHomepage extends Schema.SingleType {
     draftAndPublish: true;
   };
   attributes: {
-    image: Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    background: Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     introductionText: Attribute.Text;
     introductionImage: Attribute.Media<
       'images' | 'files' | 'videos' | 'audios'
     >;
+    title: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -862,12 +893,13 @@ export interface ApiPortfolioPortfolio extends Schema.SingleType {
     singularName: 'portfolio';
     pluralName: 'portfolios';
     displayName: 'Portfolio';
+    description: '';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
-    image: Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    background: Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -911,6 +943,38 @@ export interface ApiSongSong extends Schema.CollectionType {
   };
 }
 
+export interface ApiTopbarTopbar extends Schema.SingleType {
+  collectionName: 'topbars';
+  info: {
+    singularName: 'topbar';
+    pluralName: 'topbars';
+    displayName: 'Topbar';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    logo: Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    logoText: Attribute.String;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::topbar.topbar',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::topbar.topbar',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 declare module '@strapi/types' {
   export module Shared {
     export interface ContentTypes {
@@ -930,9 +994,11 @@ declare module '@strapi/types' {
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'plugin::i18n.locale': PluginI18NLocale;
       'api::about.about': ApiAboutAbout;
+      'api::contact.contact': ApiContactContact;
       'api::homepage.homepage': ApiHomepageHomepage;
       'api::portfolio.portfolio': ApiPortfolioPortfolio;
       'api::song.song': ApiSongSong;
+      'api::topbar.topbar': ApiTopbarTopbar;
     }
   }
 }

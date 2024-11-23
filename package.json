@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@heroicons/vue": "^2.1.5",
     "vue": "^3.4.37",
     "vue-router": "^4.4.5"
   },
@@ -22,6 +23,7 @@
     "eslint-plugin-vue": "^9.28.0",
     "postcss": "^8.4.45",
     "prettier": "3.3.3",
+    "prettier-plugin-tailwindcss": "^0.6.9",
     "sass": "^1.78.0",
     "sass-loader": "^16.0.1",
     "tailwindcss": "^3.4.11",

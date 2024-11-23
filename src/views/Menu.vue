@@ -23,10 +23,10 @@
 </script>
 <template>
   <div class="absolute w-full h-full">
-    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
-      Hi, my name's oscar. I'm an up and comping music producer. I make video
-      game soundtracks and beats. If you'd like to listen to some of my music
-      you can check out my songs <router-link to="portfolio">here.</router-link>
+    <div
+      class="text-7xl w-112 font-semibold text-center absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+    >
+      Hi, what would you like to do?
     </div>
   </div>
 </template>
