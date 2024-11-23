@@ -33,6 +33,7 @@ onMounted(async () => {
           <h2 class="mb-8 text-4xl">Contact me</h2>
           <form
             class="flex basis-full flex-col"
+            action="/contact"
             name="contact"
             method="POST"
             netlify
