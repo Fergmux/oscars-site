@@ -79,6 +79,7 @@ onMounted(async () => {
             method="POST"
             netlify
           >
+            <input type="hidden" name="form-name" value="contact" />
             <input type="hidden" name="bot-field" />
             <div class="mb-8">
               <input
