@@ -12,8 +12,8 @@ const bgImageUrl: ComputedRef<string | undefined> = computed(() => {
 });
 
 onMounted(async () => {
-  await state.getContactContent();
-  await state.getSongs();
+  // await state.getContactContent();
+  // await state.getSongs();
 });
 </script>
 <template>

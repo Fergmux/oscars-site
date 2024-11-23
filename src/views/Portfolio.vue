@@ -25,8 +25,8 @@ const songs = computed(() => {
 // });
 
 onMounted(async () => {
-  await state.getPortfolioContent();
-  await state.getSongs();
+  // await state.getPortfolioContent();
+  // await state.getSongs();
 });
 </script>
 
@@ -36,26 +36,26 @@ onMounted(async () => {
     :style="`background-image: url(${imageUrl})`"
   > -->
   <div
-    class="w-full h-full bg-cover relative"
+    class="relative h-full w-full bg-cover"
     :style="`background-image: url(${bgImageUrl})`"
   >
     <div
-      class="w-full h-full relative"
+      class="relative h-full w-full"
       style="backdrop-filter: blur(4px) brightness(50%)"
     />
     <div>
       <div
-        class="absolute bottom-1/2 -translate-y-72 left-1/2 -translate-x-1/2 scale-95"
+        class="absolute bottom-1/2 left-1/2 -translate-x-1/2 -translate-y-72 scale-95"
       >
         <song-preview v-for="song in songs" :song />
       </div>
       <audio-player
         v-for="song in songs"
         :song
-        class="absolute top-1/2 -translate-y-64 left-1/2 -translate-x-1/2"
+        class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-64"
       />
       <div
-        class="absolute top-1/2 translate-y-64 left-1/2 -translate-x-1/2 scale-95"
+        class="absolute left-1/2 top-1/2 -translate-x-1/2 translate-y-64 scale-95"
       >
         <song-preview v-for="song in songs" :song />
       </div>

@@ -7,14 +7,14 @@ const title = computed(() => {
 });
 
 onMounted(async () => {
-  await state.getHomeContent();
+  // await state.getHomeContent();
 });
 </script>
 <template>
-  <div class="absolute w-full h-full">
+  <div class="absolute h-full w-full">
     <router-link to="menu">
       <h1
-        class="cursor-pointer hover:-rotate-2 hover:scale-105 origin-center duration-300 transition-all link-shadow absolute text-9xl text-white text-center left-1/2 top-1/2 -translate-y-1/2 -translate-x-1/2 w-[42rem] font-semibold"
+        class="link-shadow absolute left-1/2 top-1/2 w-[42rem] origin-center -translate-x-1/2 -translate-y-1/2 cursor-pointer text-center text-9xl font-semibold text-white transition-all duration-300 hover:-rotate-2 hover:scale-105"
       >
         {{ title }}
       </h1>

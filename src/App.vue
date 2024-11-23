@@ -54,6 +54,7 @@ onMounted(async () => {
   await state.getAboutContent();
   await state.getPortfolioContent();
   await state.getContactContent();
+  await state.getSongs();
 });
 </script>
 
