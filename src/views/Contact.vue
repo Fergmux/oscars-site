@@ -41,6 +41,7 @@ onMounted(async () => {
               <input
                 type="text"
                 id="name"
+                name="name"
                 placeholder="Name"
                 class="block w-full appearance-none border-b-2 border-black bg-amber-50 px-3 py-2 font-semibold focus:outline-none"
               />
@@ -49,6 +50,7 @@ onMounted(async () => {
               <input
                 type="text"
                 id="email"
+                name="email"
                 placeholder="Email"
                 class="block w-full appearance-none border-b-2 border-black bg-amber-50 px-3 py-2 font-semibold focus:outline-none"
               />
@@ -56,6 +58,7 @@ onMounted(async () => {
             <div class="mb-8 flex-grow basis-full">
               <textarea
                 id="message"
+                name="message"
                 placeholder="Message"
                 class="block h-full w-full resize-none appearance-none border-b-2 border-black bg-amber-50 px-3 py-2 font-semibold focus:outline-none"
               />
